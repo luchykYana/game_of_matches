@@ -1,30 +1,38 @@
-import {FormEvent, useState} from 'react';
+import {FC, FormEvent, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 import {Button} from '../Button/Button';
+import {gameActions} from '../../store'
 
 import css from './GameSetupForm.module.sass';
+import {useAppDispatch} from '../../hooks';
+
+const {setParametersForGame} = gameActions;
 
 type FormProp = {
     start: (flag: boolean) => void
 }
 
-const GameSetupForm = ({start}: FormProp) => {
-    const [firstPlayer, setFirstPlayer] = useState('user');
+const GameSetupForm: FC<FormProp> = ({start}) => {
+    const [firstPlayer, setFirstPlayer] = useState('player 1');
     const [n, setN] = useState(12);
     const [m, setM] = useState(3);
     const [opponent, setOpponent] = useState('computer');
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const handleStartGame = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // Додайте обробку старту гри з вибраними параметрами
-        console.log('Start game with the following settings:');
-        console.log('First Player:', firstPlayer);
-        console.log('All:', 2 * n + 1);
-        console.log('Per:', m);
-        console.log('Opponent:', opponent);
-        start(true)
+
+        const info = {
+            start: firstPlayer,
+            allMatches: 2 * n + 1,
+            matchesPerTurn: m,
+            opponent: opponent
+        };
+
+        dispatch(setParametersForGame(info));
+        start(true);
     };
 
     return (
@@ -32,8 +40,8 @@ const GameSetupForm = ({start}: FormProp) => {
             <div className={css.form__input}>
                 <label> Who starts first:
                     <select value={firstPlayer} onChange={(e) => setFirstPlayer(e.target.value)}>
-                        <option value="user">User (me)</option>
-                        <option value="opponent">Opponent</option>
+                        <option value={'player 1'}>Player 1</option>
+                        <option value={'player 2'}>Player 2</option>
                     </select>
                 </label>
             </div>
