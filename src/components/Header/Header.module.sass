@@ -1,0 +1,18 @@
+@import "src/styles/typography"
+@import "src/styles/vars"
+@import "src/styles/mixin"
+
+.header
+  @include flex(row, center, center)
+  height: 80px
+  background-color: $red
+  gap: 150px
+
+  a
+    @extend .nav-link
+    color: $dark-yellow
+    font-size: 30px
+    text-decoration: none
+
+  a[class='active']
+    color: $black

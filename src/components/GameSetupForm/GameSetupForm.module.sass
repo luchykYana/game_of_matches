@@ -1,0 +1,26 @@
+@import "src/styles/typography"
+@import "src/styles/vars"
+
+.form
+  width: 37%
+  margin: 7% auto
+  border: 3px solid $red
+  padding: 2%
+
+  &__input
+    @extend .input
+    color: $dark-yellow
+
+  input, select
+    @extend .input-text
+    background-color: $dark-yellow
+    margin: 10px
+    text-align: center
+
+  input
+    width: 40px
+  select
+    width: 180px
+
+  button
+    margin: 40px auto 0

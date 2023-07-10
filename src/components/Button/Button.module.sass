@@ -1,0 +1,16 @@
+@import "src/styles/mixin"
+@import "src/styles/typography"
+
+.btn
+  @include flex(row, center, center)
+  @include border(0px solid transparent, 240px, 80px, .8em)
+  @extend .nav-link
+  cursor: pointer
+  background-image: linear-gradient(to top, $yellow, $red)
+  background-size: 100% 200%
+  background-position: bottom
+
+  transition: background-position 0.3s ease-in-out
+
+  &:hover
+    background-position: top
