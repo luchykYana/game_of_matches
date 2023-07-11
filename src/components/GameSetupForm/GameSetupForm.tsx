@@ -1,11 +1,10 @@
 import {FC, FormEvent, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
 
+import {useAppDispatch} from '../../hooks';
 import {Button} from '../Button/Button';
 import {gameActions} from '../../store'
 
 import css from './GameSetupForm.module.sass';
-import {useAppDispatch} from '../../hooks';
 
 const {setParametersForGame} = gameActions;
 
@@ -15,10 +14,9 @@ type FormProp = {
 
 const GameSetupForm: FC<FormProp> = ({start}) => {
     const [firstPlayer, setFirstPlayer] = useState('player 1');
+    const [opponent, setOpponent] = useState('computer');
     const [n, setN] = useState(12);
     const [m, setM] = useState(3);
-    const [opponent, setOpponent] = useState('computer');
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const handleStartGame = (event: FormEvent<HTMLFormElement>) => {
@@ -69,7 +67,9 @@ const GameSetupForm: FC<FormProp> = ({start}) => {
                 </label>
             </div>
 
-            <Button text={'Start Game!'} click={() => navigate('/parameters/game')}/>
+            <Button text={'Start Game!'} click={() => {
+                return;
+            }}/>
         </form>
     );
 };

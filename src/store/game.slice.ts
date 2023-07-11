@@ -51,14 +51,27 @@ const gameSlice = createSlice({
             state.game.all -= action.payload.move;
             state.game.turn = !state.game.turn;
         },
+
+        aiTake: (state, action): void => {
+            state.game.secondGamer += action.payload.move;
+            state.game.all -= action.payload.move;
+            state.game.turn = !state.game.turn;
+        },
+
+        clearInfo: (state): void => {
+            state.game.all = -1;
+            state.game.firstGamer = 0;
+            state.game.secondGamer = 0;
+            state.game.turn = false;
+        }
     },
 });
 
 const gameReducer = gameSlice.reducer;
-const {setParametersForGame, take} = gameSlice.actions;
+const {setParametersForGame, take, aiTake, clearInfo} = gameSlice.actions;
 
 export default gameReducer;
 
 export const gameActions = {
-    setParametersForGame, take
+    setParametersForGame, take, aiTake, clearInfo
 };

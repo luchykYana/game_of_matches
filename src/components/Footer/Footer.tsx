@@ -1,9 +1,11 @@
+import {FC} from 'react';
+
 import css from './Footer.module.sass';
 
-const Footer = () => {
+const Footer: FC = () => {
     return (
         <div className={css.footer}>
-            Footer
+            Stormotion | Internship JS Test Task | Yana Luchyk
         </div>
     );
 };

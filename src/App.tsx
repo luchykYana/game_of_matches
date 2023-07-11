@@ -1,17 +1,16 @@
 import {Route, Routes} from 'react-router-dom';
+import {FC} from 'react';
 
-import {GamePage, HomePage, NotFoundPage, ParametersPage, RulesPage} from './pages';
+import {HomePage, NotFoundPage, ParametersPage, RulesPage} from './pages';
 import {Layout} from './components';
 
-const App = () => {
+const App: FC = () => {
     return (
         <Routes>
             <Route path={'/'} element={<Layout/>}>
                 <Route index element={<HomePage/>}/>
 
-                <Route path={'parameters'} element={<ParametersPage/>}>
-                    <Route path={'game'} element={<GamePage/>}/>
-                </Route>
+                <Route path={'parameters'} element={<ParametersPage/>}/>
 
                 <Route path={'rules'} element={<RulesPage/>}/>
 

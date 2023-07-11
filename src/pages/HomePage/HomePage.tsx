@@ -1,9 +1,11 @@
-import {Button} from '../../components';
 import {useNavigate} from 'react-router-dom';
+import {FC} from 'react';
+
+import {Button} from '../../components';
 
 import css from './HomePage.module.sass';
 
-const HomePage = () => {
+const HomePage: FC = () => {
     const navigate = useNavigate();
 
     return (

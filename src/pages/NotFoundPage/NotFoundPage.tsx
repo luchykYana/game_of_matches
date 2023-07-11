@@ -1,6 +1,8 @@
-const NotFoundPage = () => {
+import {FC} from 'react';
+
+const NotFoundPage: FC = () => {
     return (
-        <div>
+        <div className={'heading-h2'}>
             NotFoundPage
         </div>
     );

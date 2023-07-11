@@ -1,10 +1,10 @@
+import {FC} from 'react';
+
 import css from './Match.module.sass';
 
-const Match = () => {
+const Match: FC = () => {
     return (
-        <div className={css.match}>
-            📍
-        </div>
+        <div className={css.match}>📍</div>
     );
 };
 

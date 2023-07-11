@@ -6,7 +6,7 @@ import {Match} from '../Match/Match';
 
 import css from './Box.module.sass';
 
-const {take} = gameActions;
+const {take, aiTake} = gameActions;
 
 type BoxProp = {
     amount: number,
@@ -16,13 +16,11 @@ type BoxProp = {
 
 const Box: FC<BoxProp> = ({amount, play, player}) => {
     const {info, game} = useAppSelector(state => state.gameReducer);
-    const dispatch = useAppDispatch();
-    const [move, setMove] = useState(1);
-    const [amountM, setAmountM] = useState(amount);
     const [perTurn, setPerTurn] = useState(info.matchesPerTurn);
+    const [amountM, setAmountM] = useState(amount);
     const [turn, setTurn] = useState(game.turn);
-    const [all, setAll] = useState(game.all);
-    const [gamer, setGamer] = useState(play);
+    const [move, setMove] = useState(1);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         switch (player) {
@@ -42,10 +40,56 @@ const Box: FC<BoxProp> = ({amount, play, player}) => {
                 break;
         }
 
-        if (perTurn > game.all) {
+        if (perTurn > game.all)
             setPerTurn(game.all);
+    }, [game.all, game.firstGamer, game.secondGamer, game.turn, info.opponent, perTurn, player, turn]);
+
+    useEffect(() => {
+        if (turn && info.opponent === 'computer' && player === 2)
+            computerTake();
+    }, []);
+
+    const computeComputerMove = (): number => {
+        const remainingMatches = game.all - move;
+        const computerMatches = game.secondGamer;
+        const maxMatchesPerTurn = info.matchesPerTurn;
+
+        if (remainingMatches <= maxMatchesPerTurn) {
+            if (remainingMatches % 2 === 0) {
+                if (computerMatches % 2 === 0) {
+                    return remainingMatches;
+                } else {
+                    return remainingMatches - 1;
+                }
+            } else {
+                if (computerMatches % 2 === 0) {
+                    return remainingMatches - 1;
+                } else {
+                    return remainingMatches;
+                }
+            }
+        } else {
+            if (computerMatches % 2 === 0) {
+                if (remainingMatches % 2 === 0) {
+                    return maxMatchesPerTurn;
+                } else {
+                    return maxMatchesPerTurn - 1;
+                }
+            } else {
+                if (remainingMatches % 2 === 0) {
+                    return maxMatchesPerTurn - 1;
+                } else {
+                    return maxMatchesPerTurn;
+                }
+            }
         }
-    }, [game.all, game.firstGamer, game.secondGamer, game.turn, perTurn, player])
+    };
+
+    function computerTake() {
+        const aiMove = computeComputerMove();
+
+        dispatch(aiTake({move: aiMove}));
+    }
 
     const takeMatches = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
@@ -53,6 +97,9 @@ const Box: FC<BoxProp> = ({amount, play, player}) => {
         dispatch(take({player, move}));
         if (player === 1) {
             setAmountM(game.firstGamer);
+            if (info.opponent === 'computer' && game.all > 1) {
+                computerTake()
+            }
         } else {
             setAmountM(game.secondGamer);
         }

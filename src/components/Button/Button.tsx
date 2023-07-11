@@ -1,3 +1,5 @@
+import {FC} from 'react';
+
 import css from './Button.module.sass';
 
 type ButtonProp = {
@@ -5,7 +7,7 @@ type ButtonProp = {
     click: () => void
 }
 
-const Button = ({text, click}: ButtonProp) => {
+const Button: FC<ButtonProp> = ({text, click}) => {
     return (
         <button className={css.btn} onClick={click} type={'submit'}>
             {text}
